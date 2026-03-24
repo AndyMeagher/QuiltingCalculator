@@ -1,3 +1,4 @@
+import { ContentCard } from "@/components/content-card";
 import FormField from "@/components/form-field";
 import { ThemedText } from "@/components/themed-text";
 import { ThemedView } from "@/components/themed-view";
@@ -35,22 +36,21 @@ export default function HomeScreen() {
         paddingHorizontal: 16,
       }}
     >
-      <ThemedView>
-        {result && (
-          <ThemedView style={{ marginVertical: 16 }}>
-            <ThemedText>Your options:</ThemedText>
-            {result.options.map((option) => (
-              <ThemedView key={option.method}>
-                <ThemedText>
-                  {option.method} {option.yardage.toFixed(2)} yards —{" "}
-                  {option.seams} seam
-                  {option.seams !== 1 ? "s" : ""}
-                </ThemedText>
-              </ThemedView>
-            ))}
-          </ThemedView>
-        )}
-
+      {result && (
+        <ContentCard color="yellow">
+          <ThemedText>Your options:</ThemedText>
+          {result.options.map((option) => (
+            <ThemedView key={option.method}>
+              <ThemedText>
+                {option.method} {option.yardage.toFixed(2)} yards —{" "}
+                {option.seams} seam
+                {option.seams !== 1 ? "s" : ""}
+              </ThemedText>
+            </ThemedView>
+          ))}
+        </ContentCard>
+      )}
+      <ContentCard color="#FF0000">
         <ThemedView style={{ flexDirection: "row", marginBottom: 16 }}>
           <FormField
             style={{ flex: 1, marginRight: 8 }}
@@ -66,7 +66,7 @@ export default function HomeScreen() {
                   padding: 8,
                   borderRadius: 10,
                   borderWidth: 1,
-                  borderColor: "blue",
+                  borderColor: "red",
                 }}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -89,7 +89,7 @@ export default function HomeScreen() {
                   padding: 8,
                   borderRadius: 10,
                   borderWidth: 1,
-                  borderColor: "blue",
+                  borderColor: "red",
                 }}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -114,7 +114,7 @@ export default function HomeScreen() {
                   padding: 8,
                   borderRadius: 10,
                   borderWidth: 1,
-                  borderColor: "blue",
+                  borderColor: "red",
                 }}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -137,7 +137,7 @@ export default function HomeScreen() {
                 padding: 8,
                 borderRadius: 10,
                 borderWidth: 1,
-                borderColor: "blue",
+                borderColor: "red",
               }}
               onBlur={onBlur}
               onChangeText={onChange}
@@ -148,20 +148,19 @@ export default function HomeScreen() {
         />
         <TouchableOpacity
           style={{
-            backgroundColor: "#007AFF",
+            backgroundColor: "red",
             paddingVertical: 12,
             paddingHorizontal: 24,
-            margin: 12,
+            marginTop: 12,
             borderRadius: 18,
             alignItems: "center",
+            borderWidth: 1,
           }}
           onPress={handleSubmit(onSubmit)}
         >
-          <Text style={{ color: "#fff", fontWeight: "600", fontSize: 16 }}>
-            Press Me
-          </Text>
+          <Text style={{ fontWeight: "600", fontSize: 16 }}>Submit</Text>
         </TouchableOpacity>
-      </ThemedView>
+      </ContentCard>
     </ScrollView>
   );
 }
