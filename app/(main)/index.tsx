@@ -8,7 +8,7 @@ import {
 } from "@/utils/calculator";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Button, ScrollView, TextInput } from "react-native";
+import { ScrollView, Text, TextInput, TouchableOpacity } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function HomeScreen() {
@@ -51,32 +51,6 @@ export default function HomeScreen() {
           </ThemedView>
         )}
 
-        <ThemedText type="title">Backing Fabric:</ThemedText>
-        <ThemedView style={{ flexDirection: "row", marginBottom: 16 }}>
-          <FormField
-            style={{ flex: 1, marginRight: 8 }}
-            label="Width"
-            name="backingWidth"
-            control={control}
-            rules={{ required: "This field is required" }}
-            error={errors.backingWidth?.message}
-            render={({ field: { onChange, onBlur, value } }) => (
-              <TextInput
-                style={{
-                  backgroundColor: "white",
-                  padding: 8,
-                  borderRadius: 10,
-                }}
-                onBlur={onBlur}
-                onChangeText={onChange}
-                value={value}
-                keyboardType="decimal-pad"
-              />
-            )}
-          />
-        </ThemedView>
-
-        <ThemedText type="title">Quilt Top:</ThemedText>
         <ThemedView style={{ flexDirection: "row", marginBottom: 16 }}>
           <FormField
             style={{ flex: 1, marginRight: 8 }}
@@ -91,6 +65,8 @@ export default function HomeScreen() {
                   backgroundColor: "white",
                   padding: 8,
                   borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: "blue",
                 }}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -112,6 +88,8 @@ export default function HomeScreen() {
                   backgroundColor: "white",
                   padding: 8,
                   borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: "blue",
                 }}
                 onBlur={onBlur}
                 onChangeText={onChange}
@@ -121,8 +99,31 @@ export default function HomeScreen() {
             )}
           />
         </ThemedView>
-        <ThemedText type="title">Overage:</ThemedText>
-
+        <ThemedView style={{ flexDirection: "row", marginBottom: 16 }}>
+          <FormField
+            style={{ flex: 1, marginRight: 8 }}
+            label="Width of Fabric"
+            name="backingWidth"
+            control={control}
+            rules={{ required: "This field is required" }}
+            error={errors.backingWidth?.message}
+            render={({ field: { onChange, onBlur, value } }) => (
+              <TextInput
+                style={{
+                  backgroundColor: "white",
+                  padding: 8,
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: "blue",
+                }}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+                keyboardType="decimal-pad"
+              />
+            )}
+          />
+        </ThemedView>
         <FormField
           style={{}}
           label="Margin"
@@ -135,6 +136,8 @@ export default function HomeScreen() {
                 backgroundColor: "white",
                 padding: 8,
                 borderRadius: 10,
+                borderWidth: 1,
+                borderColor: "blue",
               }}
               onBlur={onBlur}
               onChangeText={onChange}
@@ -143,7 +146,21 @@ export default function HomeScreen() {
             />
           )}
         />
-        <Button title="Submit" onPress={handleSubmit(onSubmit)} />
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#007AFF",
+            paddingVertical: 12,
+            paddingHorizontal: 24,
+            margin: 12,
+            borderRadius: 18,
+            alignItems: "center",
+          }}
+          onPress={handleSubmit(onSubmit)}
+        >
+          <Text style={{ color: "#fff", fontWeight: "600", fontSize: 16 }}>
+            Press Me
+          </Text>
+        </TouchableOpacity>
       </ThemedView>
     </ScrollView>
   );
