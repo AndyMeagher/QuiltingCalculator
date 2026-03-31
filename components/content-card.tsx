@@ -1,17 +1,25 @@
 import React, { PropsWithChildren } from "react";
 import { ColorValue, View } from "react-native";
-import { ThemedView } from "./themed-view";
 
 export const ContentCard = ({
   children,
   color,
 }: PropsWithChildren<{ color: ColorValue }>) => {
   return (
-    <ThemedView
+    <View
       style={{
+        backgroundColor: "#FFFFFF",
         borderRadius: 10,
         borderWidth: 1,
         borderColor: "black",
+        marginBottom: 16,
+        // iOS shadow
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.15,
+        shadowRadius: 4,
+        // Android shadow
+        elevation: 3,
       }}
     >
       <View
@@ -26,6 +34,6 @@ export const ContentCard = ({
         }}
       ></View>
       <View style={{ padding: 16 }}>{children}</View>
-    </ThemedView>
+    </View>
   );
 };

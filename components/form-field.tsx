@@ -1,3 +1,4 @@
+import { Fonts } from "@/constants/theme";
 import {
   Control,
   Controller,
@@ -5,9 +6,7 @@ import {
   FieldValues,
   RegisterOptions,
 } from "react-hook-form";
-import { StyleProp, ViewStyle } from "react-native";
-import { ThemedText } from "./themed-text";
-import { ThemedView } from "./themed-view";
+import { StyleProp, Text, View, ViewStyle } from "react-native";
 
 type FormFieldProps<T extends FieldValues> = {
   label: string;
@@ -29,11 +28,29 @@ function FormField<T extends FieldValues>({
   style,
 }: FormFieldProps<T>) {
   return (
-    <ThemedView style={style}>
-      <ThemedText>{label}</ThemedText>
+    <View style={style}>
+      <Text
+        style={{
+          fontFamily: Fonts.montreal.medium,
+          fontSize: 16,
+          paddingBottom: 8,
+        }}
+      >
+        {label}
+      </Text>
       <Controller control={control} name={name} rules={rules} render={render} />
-      {error && <ThemedText style={{ color: "red" }}>{error}</ThemedText>}
-    </ThemedView>
+      {error && (
+        <Text
+          style={{
+            color: "red",
+            paddingTop: 8,
+            fontFamily: Fonts.montreal.medium,
+          }}
+        >
+          {error}
+        </Text>
+      )}
+    </View>
   );
 }
 
