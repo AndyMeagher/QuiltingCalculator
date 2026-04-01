@@ -1,18 +1,9 @@
 import { Fonts } from "@/constants/theme";
-import {
-  Control,
-  Controller,
-  FieldPath,
-  FieldValues,
-  RegisterOptions,
-} from "react-hook-form";
+import { Controller, FieldValues, UseControllerProps } from "react-hook-form";
 import { StyleProp, Text, View, ViewStyle } from "react-native";
 
-type FormFieldProps<T extends FieldValues> = {
+type FormFieldProps<T extends FieldValues> = UseControllerProps<T> & {
   label: string;
-  name: FieldPath<T>;
-  control: Control<T>;
-  rules?: RegisterOptions<T>;
   error?: string;
   render: React.ComponentProps<typeof Controller<T>>["render"];
   style?: StyleProp<ViewStyle>;
@@ -26,6 +17,7 @@ function FormField<T extends FieldValues>({
   error,
   render,
   style,
+  defaultValue,
 }: FormFieldProps<T>) {
   return (
     <View style={style}>
@@ -38,7 +30,13 @@ function FormField<T extends FieldValues>({
       >
         {label}
       </Text>
-      <Controller control={control} name={name} rules={rules} render={render} />
+      <Controller
+        defaultValue={defaultValue}
+        control={control}
+        name={name}
+        rules={rules}
+        render={render}
+      />
       {error && (
         <Text
           style={{

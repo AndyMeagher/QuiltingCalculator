@@ -20,7 +20,6 @@ export default function RootLayout() {
   const [fontsLoaded] = useFonts(FontSources);
 
   if (!fontsLoaded) return null;
-
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
       <Stack>
