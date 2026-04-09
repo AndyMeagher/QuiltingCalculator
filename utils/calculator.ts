@@ -14,7 +14,7 @@ export const toNumber = (text: string) => {
 const roundUpToQuarter = (yards: number) => Math.ceil(yards * 4) / 4;
 
 export type BackingOption = {
-  method: "Normal" | "Rotated" | "Diagonal";
+  seamDirection: "horizontal" | "vertical" | "diagonal";
   total: number;
   outputUnit: "yards" | "meters";
   seams: number;
@@ -48,26 +48,27 @@ export const calculateBackingOptions = (
   const rotatedStrips = stripsNeeded(requiredLength);
 
   const normal: BackingOption = {
-    method: "Normal",
+    seamDirection: "vertical",
     total: roundFn((normalStrips * requiredLength) / conversionFactor),
     seams: normalStrips - 1,
     outputUnit: isCm ? "meters" : "yards",
   };
 
   const rotated: BackingOption = {
-    method: "Rotated",
+    seamDirection: "horizontal",
     total: roundFn((rotatedStrips * requiredWidth) / conversionFactor),
     seams: rotatedStrips - 1,
     outputUnit: isCm ? "meters" : "yards",
   };
+
+  const best = normal.total <= rotated.total ? normal : rotated;
 
   const denominator = 2 * backingWidth - requiredWidth;
 
   const diagonalEligible =
     requiredWidth <= backingWidth * 1.5 && denominator > 0;
 
-  let options: BackingOption[] = [];
-  options.push(normal, rotated);
+  const options: BackingOption[] = [best];
 
   if (diagonalEligible) {
     const extraLength =
@@ -76,15 +77,11 @@ export const calculateBackingOptions = (
     const totalLength = requiredLength + extraLength;
 
     options.push({
-      method: "Diagonal",
+      seamDirection: "diagonal",
       total: roundFn(totalLength / conversionFactor),
       seams: 1,
       outputUnit: isCm ? "meters" : "yards",
     });
   }
-  return {
-    options: options.sort((a, b) => {
-      return a.total - b.total;
-    }),
-  };
+  return { options };
 };

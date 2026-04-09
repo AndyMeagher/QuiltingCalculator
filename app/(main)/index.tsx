@@ -283,7 +283,7 @@ export default function HomeScreen() {
       <FlatList
         contentContainerStyle={{ paddingHorizontal: 8 }}
         data={result?.options ?? []}
-        keyExtractor={(item) => item.method}
+        keyExtractor={(item) => item.seamDirection}
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
@@ -294,7 +294,7 @@ export default function HomeScreen() {
               paddingHorizontal: 8,
             }} // adjust padding as needed
           >
-            <ContentCard key={option.method} color={Colors.branding.blue}>
+            <ContentCard key={option.seamDirection} color={Colors.branding.blue}>
               <View style={{ flexDirection: "row", paddingBottom: 16 }}>
                 <Image
                   style={{ height: 20, width: 20, marginRight: 8 }}
@@ -303,7 +303,7 @@ export default function HomeScreen() {
                 <Text
                   style={{ fontFamily: Fonts.montreal.medium, fontSize: 16 }}
                 >
-                  {option.method}:
+                  {option.seamDirection}:
                 </Text>
               </View>
               <View>
