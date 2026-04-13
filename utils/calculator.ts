@@ -14,7 +14,7 @@ export const toNumber = (text: string) => {
 const roundUpToQuarter = (yards: number) => Math.ceil(yards * 4) / 4;
 
 export type BackingOption = {
-  seamDirection: "horizontal" | "vertical" | "diagonal";
+  seamDirection: "Horizontal" | "Vertical" | "Diagonal" | "None";
   total: number;
   outputUnit: "yards" | "meters";
   seams: number;
@@ -47,28 +47,35 @@ export const calculateBackingOptions = (
   const normalStrips = stripsNeeded(requiredWidth);
   const rotatedStrips = stripsNeeded(requiredLength);
 
+  const normalSeams = normalStrips - 1;
+  const rotatedSeams = rotatedStrips - 1;
+
   const normal: BackingOption = {
-    seamDirection: "vertical",
+    seamDirection: normalSeams === 0 ? "None" : "Vertical",
     total: roundFn((normalStrips * requiredLength) / conversionFactor),
-    seams: normalStrips - 1,
+    seams: normalSeams,
     outputUnit: isCm ? "meters" : "yards",
   };
 
   const rotated: BackingOption = {
-    seamDirection: "horizontal",
+    seamDirection: rotatedSeams === 0 ? "None" : "Horizontal",
     total: roundFn((rotatedStrips * requiredWidth) / conversionFactor),
-    seams: rotatedStrips - 1,
+    seams: rotatedSeams,
     outputUnit: isCm ? "meters" : "yards",
   };
 
-  const best = normal.total <= rotated.total ? normal : rotated;
+  // If both options need no seams, only keep the one using less fabric
+  const seamlessOptions =
+    normal.seams === 0 && rotated.seams === 0
+      ? [normal.total <= rotated.total ? normal : rotated]
+      : [normal, rotated];
 
   const denominator = 2 * backingWidth - requiredWidth;
 
   const diagonalEligible =
     requiredWidth <= backingWidth * 1.5 && denominator > 0;
 
-  const options: BackingOption[] = [best];
+  const options: BackingOption[] = seamlessOptions;
 
   if (diagonalEligible) {
     const extraLength =
@@ -77,7 +84,7 @@ export const calculateBackingOptions = (
     const totalLength = requiredLength + extraLength;
 
     options.push({
-      seamDirection: "diagonal",
+      seamDirection: "Diagonal",
       total: roundFn(totalLength / conversionFactor),
       seams: 1,
       outputUnit: isCm ? "meters" : "yards",

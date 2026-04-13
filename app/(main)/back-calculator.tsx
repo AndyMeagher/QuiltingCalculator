@@ -6,6 +6,8 @@ import {
   BackingResult,
   calculateBackingOptions,
 } from "@/utils/calculator";
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
@@ -30,6 +32,7 @@ export default function BackCalculatorScreen() {
   } = useForm<BackingCalculatorInputs>();
 
   const insets = useSafeAreaInsets();
+  const router = useRouter();
 
   const [result, setResult] = useState<BackingResult | undefined>();
 
@@ -70,6 +73,19 @@ export default function BackCalculatorScreen() {
       }}
     >
       <View style={{ paddingHorizontal: 16 }}>
+        <View style={{ flexDirection: "row" }}>
+          <Image source={require("../../assets/images/Union.png")} />
+          <Text
+            style={{
+              fontFamily: Fonts.editorial.italic,
+              fontSize: 24,
+              paddingLeft: 8,
+              paddingBottom: 8,
+            }}
+          >
+            Backing Calculator
+          </Text>
+        </View>
         <Text
           style={{
             fontFamily: Fonts.montreal.medium,
@@ -265,31 +281,70 @@ export default function BackCalculatorScreen() {
           </TouchableOpacity>
         </ContentCard>
       </View>
+      {result && (
+        <Text
+          style={{
+            fontFamily: Fonts.montreal.medium,
+            fontSize: 16,
+            paddingHorizontal: 24,
+            paddingVertical: 24,
+          }}
+        >
+          Your Options:
+        </Text>
+      )}
       <FlatList
-        contentContainerStyle={{ paddingHorizontal: 8 }}
         data={result?.options ?? []}
-        keyExtractor={(item) => item.seamDirection}
+        keyExtractor={(item, index) => `${item.seamDirection}-${index}`}
         horizontal
-        pagingEnabled
+        snapToInterval={Dimensions.get("window").width - 64}
+        snapToAlignment="start"
+        decelerationRate="fast"
+        contentContainerStyle={{ paddingHorizontal: 16 }}
         showsHorizontalScrollIndicator={false}
         renderItem={({ item: option }) => (
           <View
             style={{
-              width: Dimensions.get("window").width - 48,
+              width: Dimensions.get("window").width - 64,
               paddingHorizontal: 8,
             }}
           >
-            <ContentCard key={option.seamDirection} color={Colors.branding.blue}>
-              <View style={{ flexDirection: "row", paddingBottom: 16 }}>
-                <Image
-                  style={{ height: 20, width: 20, marginRight: 8 }}
-                  source={require("../../assets/images/Union.png")}
-                />
-                <Text
-                  style={{ fontFamily: Fonts.montreal.medium, fontSize: 16 }}
-                >
-                  {option.seamDirection}:
-                </Text>
+            <ContentCard
+              key={option.seamDirection}
+              color={Colors.branding.blue}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  paddingBottom: 16,
+                  justifyContent: "space-between",
+                }}
+              >
+                <View style={{ flexDirection: "row" }}>
+                  <Image
+                    style={{ height: 20, width: 20, marginRight: 8 }}
+                    source={require("../../assets/images/Union.png")}
+                  />
+                  <Text
+                    style={{ fontFamily: Fonts.montreal.medium, fontSize: 16 }}
+                  >
+                    {option.seamDirection === "None"
+                      ? "No Seams Needed"
+                      : `${option.seamDirection} Seams:`}
+                  </Text>
+                </View>
+                {option.seamDirection != "None" && (
+                  <TouchableOpacity
+                    onPress={() =>
+                      router.push({
+                        pathname: "/(main)/seam-diagram",
+                        params: { direction: option.seamDirection },
+                      })
+                    }
+                  >
+                    <Ionicons name="information-circle-outline" size={24} />
+                  </TouchableOpacity>
+                )}
               </View>
               <View>
                 <View
