@@ -10,7 +10,7 @@ import { calculateBackingOptions } from "@/utils/calculator";
 
 describe('Backing Calculator', () => {
   it('Calculates Normal Dimensions Correctly', () => {
-    const optionsList = calculateBackingOptions({quiltLength: "54", quiltWidth: "45", backingWidth: "42", backingMargin: "4", units: "inches"})
+    const optionsList = calculateBackingOptions({quiltLength: "54", quiltWidth: "45", backingWidth: "42", backingOverage: "4", units: "inches"})
     const normalOption = optionsList.options.find(item =>{
      return item.seamDirection != "diagonal"
     })
@@ -19,7 +19,7 @@ describe('Backing Calculator', () => {
   });
 
   it('Calculates Large Dimensions Correctly', () => {
-    const optionsList = calculateBackingOptions({quiltLength: "110", quiltWidth: "100", backingWidth: "42", backingMargin: "2", units: "inches"})
+    const optionsList = calculateBackingOptions({quiltLength: "110", quiltWidth: "100", backingWidth: "42", backingOverage: "2", units: "inches"})
     const normalOption = optionsList.options.find(item =>{
      return item.seamDirection != "diagonal"
     })
@@ -28,7 +28,7 @@ describe('Backing Calculator', () => {
   });
 
   it('Calculates Extra Small Dimensions Correctly', () => {
-    const optionsList = calculateBackingOptions({quiltLength: "5", quiltWidth: "4", backingWidth: "4", backingMargin: "0", units: "inches"})
+    const optionsList = calculateBackingOptions({quiltLength: "5", quiltWidth: "4", backingWidth: "4", backingOverage: "0", units: "inches"})
     const normalOption = optionsList.options.find(item =>{
      return item.seamDirection != "diagonal"
     })

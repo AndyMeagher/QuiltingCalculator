@@ -2,7 +2,7 @@ export type BackingCalculatorInputs = {
   quiltWidth: string;
   quiltLength: string;
   backingWidth: string;
-  backingMargin: string;
+  backingOverage: string;
   units: "inches" | "centimeters";
 };
 
@@ -32,7 +32,7 @@ export const calculateBackingOptions = (
   const quiltWidth = toNumber(input.quiltWidth);
   const quiltLength = toNumber(input.quiltLength);
   const backingWidth = toNumber(input.backingWidth);
-  const backingMargin = toNumber(input.backingMargin);
+  const backingMargin = toNumber(input.backingOverage);
 
   const isCm = input.units === "centimeters";
   const conversionFactor = isCm ? 100 : 36;
